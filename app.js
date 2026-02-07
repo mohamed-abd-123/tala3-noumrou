@@ -9,8 +9,25 @@
 ////// initial values ::
 
 
-// let secretNumber = Math.trunc((Math.random()*20)+1) //// between 1 and 20 ...
+let secretNumber = Math.trunc((Math.random()*20)+1) //// between 1 and 20 ...
 
+
+let score = 20 ;
+
+let highScore = 0 ;
+
+// document.querySelector(".logo").textContent = secretNumber
+
+
+const dispalyMessage=function(message){
+  document.querySelector(".start-title").textContent=message
+}
+
+
+// start guessing
+document.querySelector(".btn-check").addEventListener("click",function(){
+
+// let secretNumber = Math.trunc((Math.random()*20)+1) //// between 1 and 20 ...
 
 // let score = 20 ;
 
@@ -18,41 +35,53 @@
 
 // document.querySelector(".logo").textContent = secretNumber
 
-
-
-
-// start guessing
-document.querySelector(".btn-check").addEventListener("click",function(){
-
-let secretNumber = Math.trunc((Math.random()*20)+1) //// between 1 and 20 ...
-
-let score = 20 ;
-
-let highScore = 0 ;
-
-document.querySelector(".logo").textContent = secretNumber
-
-var Nomber= (document.querySelector("input").value)
+var Nomber= Number(document.querySelector("input").value)
 if(!Nomber){
-  document.querySelector(".start-title").textContent="⛔not a number"
-}else if(Nomber>secretNumber){
-  document.querySelector(".start-title").textContent="is Higher"
-}else if(Nomber<secretNumber){
-  document.querySelector(".start-title").textContent="is lower"
-}else{
-  document.querySelector(".start-title").textContent="🎉win"
-}
+  dispalyMessage("⛔not a number")
+
+}else if(Nomber==secretNumber){
+  dispalyMessage("🎉win")
+  document.querySelector("body").style.backgroundColor = "greenyellow";
+  score++
+  document.querySelector(".score").textContent= score
+  document.querySelector(".logo").textContent = secretNumber
+  secretNumber = Math.trunc((Math.random()*20)+1)
+  document.querySelector("input").value=""
+  if(score>highScore){
+    highScore=score
+    document.querySelector(".highscore").textContent=score
+  }
+
  
-// score
-if(!Nomber){
-  document.querySelector(".score").textContent= 20
-}else if(Nomber>secretNumber){
-  document.querySelector(".score").textContent= 20 - 1
-}else if(Nomber<secretNumber){
-  document.querySelector(".score").textContent= 20 - 1
-}else{
-  document.querySelector(".score").textContent= 20 + 1
+} else if(score>0){
+  if(Nomber>secretNumber){
+  document.querySelector(".logo").textContent = "?";
+  document.querySelector("body").style.backgroundColor = "rgb(48, 46, 46)"; 
+  dispalyMessage("is Higher")
+  score--
+  document.querySelector(".score").textContent= score
+  document.querySelector("input").value=""
+  }else if(Nomber<secretNumber){
+  document.querySelector(".logo").textContent = "?";
+  document.querySelector("body").style.backgroundColor = "rgb(48, 46, 46)";
+  dispalyMessage("is lower")
+  score--
+  document.querySelector(".score").textContent= score
+  document.querySelector("input").value=""
+  }
+ }
+ else{
+  dispalyMessage("you loose the game 🔥")
 }
-
 })
 
+document.querySelector(".btn-again").addEventListener("click",function(){
+  score=20
+  document.querySelector(".score").textContent= score
+  highScore=0
+  document.querySelector(".highscore").textContent=highScore
+  dispalyMessage("Start Guessing ...")
+  document.querySelector(".logo").textContent = "?";
+  document.querySelector("body").style.backgroundColor = "rgb(48, 46, 46)";
+  document.querySelector("input").value=""
+})
